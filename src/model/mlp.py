@@ -117,12 +117,14 @@ class MultilayerPerceptron(Classifier):
     def _compute_error(self, target):
         """
         Compute the total error of the network (error terms from the output layer)
-
+    
         Returns
         -------
         ndarray :
             a numpy array (1,nOut) containing the output of the layer
         """
+       
+        self.trainingSet = p
         pass
     
     def _update_weights(self, learningRate):
