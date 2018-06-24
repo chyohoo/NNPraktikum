@@ -123,6 +123,7 @@ class MultilayerPerceptron(Classifier):
             inp = np.insert(inp, 0, 1, axis = 0) # add bias values ("1"s) at the beginning
             inp = self._get_layer(i).forward(inp)
 
+        return inp
 
     def _compute_error(self, target):
         """
