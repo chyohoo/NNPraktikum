@@ -48,7 +48,7 @@ class MultilayerPerceptron(Classifier):
         self.trainingSet = train
         self.validationSet = valid
         self.testSet = test
-        
+
         if loss == 'bce':
             self.loss = BinaryCrossEntropyError()
         elif loss == 'sse':
@@ -74,12 +74,12 @@ class MultilayerPerceptron(Classifier):
 
         # Input layer
         inputActivation = "sigmoid"
-        self.layers.append(LogisticLayer(train.input.shape[1], 128, 
+        self.layers.append(LogisticLayer(train.input.shape[1], 128,
                            None, inputActivation, False))
 
         # Output layer
         outputActivation = "softmax"
-        self.layers.append(LogisticLayer(128, 10, 
+        self.layers.append(LogisticLayer(128, 10,
                            None, outputActivation, True))
 
         self.inputWeights = inputWeights
@@ -113,7 +113,17 @@ class MultilayerPerceptron(Classifier):
         # Here you have to propagate forward through the layers
         # And remember the activation values of each layer
         """
-        
+        # @Author  : Yingzhi
+
+        # do forward for the first layer
+        inp = self._get_layer(0).forward(inp);
+
+        # do forward pass for rest layers
+        for i in range(1, len(self.layers)):
+            inp = np.insert(inp, 0, 1, axis = 0) # add bias values ("1"s) at the beginning
+            inp = self._get_layer(i).forward(inp)
+
+
     def _compute_error(self, target):
         """
         Compute the total error of the network (error terms from the output layer)
@@ -123,14 +133,15 @@ class MultilayerPerceptron(Classifier):
         ndarray :
             a numpy array (1,nOut) containing the output of the layer
         """
-        pass
-    
+
+
+
     def _update_weights(self, learningRate):
         """
         Update the weights of the layers by propagating back the error
         """
         pass
-        
+
     def train(self, verbose=True):
         """Train the Multi-layer Perceptrons
 
@@ -147,7 +158,7 @@ class MultilayerPerceptron(Classifier):
         # Classify an instance given the model of the classifier
         # You need to implement something here
         pass
-        
+
 
     def evaluate(self, test=None):
         """Evaluate a whole dataset.

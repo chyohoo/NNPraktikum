@@ -83,10 +83,11 @@ class LogisticLayer():
         outp: ndarray
             a numpy array (nOut,1) containing the output of the layer
         """
-
+        # @Author  : Yingzhi
+        
         # Here you have to implement the forward pass
         self.inp = inp
-        outp = self._fire(inp)
+        outp = self._fire(inp)  #_fire() returns activation
         self.outp = outp
 
         return outp
@@ -149,7 +150,7 @@ class LogisticLayer():
             self.weights[:, neuron] -= (learningRate *
                                         self.deltas[neuron] *
                                         self.inp)
-        
+
 
     def _fire(self, inp):
         return self.activation(np.dot(inp, self.weights))
