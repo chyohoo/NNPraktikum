@@ -114,14 +114,10 @@ class MultilayerPerceptron(Classifier):
         # And remember the activation values of each layer
         """
         # @Author  : Yingzhi
-
-        # do forward for the first layer
-        inp = self._get_layer(0).forward(inp);
-
-        # do forward pass for rest layers
-        for i in range(1, len(self.layers)):
+        # do forward pass for all layers
+        for i, layer in enumerate(self.layers):
             inp = np.insert(inp, 0, 1, axis = 0) # add bias values ("1"s) at the beginning
-            inp = self._get_layer(i).forward(inp)
+            inp = layer.forward(inp)
 
         return inp
 
@@ -143,11 +139,11 @@ class MultilayerPerceptron(Classifier):
         """
         # @Author : Yue Ning
         # in order to realize this update_weights function, need deltas
-        # to get deltas in train function 
+        # to get deltas in train function
         for n, layer in enumerate(self.layers):
             for neuron in range(0, layer.nOut):
                 layer.weights[:, neuron] -= (learningRate *
-                                                layer.deltas[neuron] * 
+                                                layer.deltas[neuron] *
                                                 layer.input_data)
             self.layers[n].weights = layer.weights
 
