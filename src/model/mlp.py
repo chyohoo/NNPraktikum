@@ -149,7 +149,7 @@ class MultilayerPerceptron(Classifier):
                 layer.weights[:, neuron] -= (learningRate *
                                                 layer.deltas[neuron] * 
                                                 layer.input_data)
-                self.layers[n].weights = layer.weights
+            self.layers[n].weights = layer.weights
 
     def train(self, verbose=True):
         """Train the Multi-layer Perceptrons
