@@ -144,12 +144,12 @@ class MultilayerPerceptron(Classifier):
         # @Author : Yue Ning
         # in order to realize this update_weights function, need deltas
         # to get deltas in train function 
-        for n, layer in enumerate(layers):
+        for n, layer in enumerate(self.layers):
             for neuron in range(0, layer.nOut):
                 layer.weights[:, neuron] -= (learningRate *
                                                 layer.deltas[neuron] * 
                                                 layer.input_data)
-                self.layer[n].weights = layer.weights
+                self.layers[n].weights = layer.weights
 
     def train(self, verbose=True):
         """Train the Multi-layer Perceptrons
