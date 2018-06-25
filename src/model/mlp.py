@@ -142,21 +142,14 @@ class MultilayerPerceptron(Classifier):
         Update the weights of the layers by propagating back the error
         """
         # @Author : Yue Ning
-        output_layer = self._get_output_layer()
-        input_layer = self._get_input_layer()
-        output_layer.input_data = input_layer.output_data
         # in order to realize this update_weights function, need deltas
         # to get deltas in train function 
-        for neuron in range(0, output_layer.nOut):
-            output_layer.weights[:,neuron] -= (learningRate * 
-                                                output_layer.deltas[neuron] * 
-                                                output_layer.input_data)
-            self.layers[-1].weights = output_layer.weights
-        for neuron in range(0, input_layer.nOut):
-            input_layer.weights[:,neuron] -= (learningRate * 
-                                                input_layer.deltas[neuron] * 
-                                                input_layer.input_data)
-            self.layers[0].weights = input_layer.weights
+        for n, layer in enumerate(layers):
+            for neuron in range(0, layer.nOut):
+                layer.weights[:, neuron] -= (learningRate *
+                                                layer.deltas[neuron] * 
+                                                layer.input_data)
+                self.layer[n].weights = layer.weights
 
     def train(self, verbose=True):
         """Train the Multi-layer Perceptrons
