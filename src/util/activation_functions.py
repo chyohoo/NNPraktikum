@@ -62,11 +62,13 @@ class Activation:
         return ones(netOutput.size)
 
     @staticmethod
+    # @Author  :Zhongqi Chen
     def softmax(w):
         e = numpy.exp(w - numpy.max(w))
         return e/e.sum()
         
     @staticmethod
+    # @Author  :Zhongqi Chen
     def softmaxPrime(s):
         mt = softmax(s)
         m = numpy.diag(mt)
