@@ -155,7 +155,25 @@ class MultilayerPerceptron(Classifier):
         verbose : boolean
             Print logging messages with validation accuracy if verbose is True.
         """
-        pass
+         for epoch in range(self.epochs):
+            if verbose:
+                print("Training epcho {0}/{1}.."
+                      .format(epcho + 1, self.epchos))
+
+                for img, label in zip(self.trainingSet.input,
+                                      self.trainingSet.label):
+                    self.layers._feed_forward(img)
+                    self.layers._compute_error(label)
+                    self.layers._update_weights(self.learningRate)
+
+
+            if verbose:
+                accuracy = accuracy_score(self.validation.label,
+                                          self.evaluate(self.validationSet))
+                self.performances.append(accuracy)
+                print("Accuracy on validation: {0:.2f}%"
+                       .format(accuracy * 100))
+                print("---------------------------------")
 
 
 
