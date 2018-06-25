@@ -8,7 +8,7 @@ from numpy import exp
 from numpy import divide
 from numpy import ones
 from numpy import asarray
-
+import numpy
 
 class Activation:
     """
@@ -62,14 +62,23 @@ class Activation:
         return ones(netOutput.size)
 
     @staticmethod
-    def softmax(netOutput):
-        # Here you have to code the softmax function
-        pass
+    def softmax(w):
+        e = numpy.exp(w - numpy.max(w))
+        return e/e.sum()
         
     @staticmethod
-    def softmaxPrime(netOutput):
-        # Here you have to code the softmax function
-        pass
+    def softmaxPrime(s):
+        mt = softmax(s)
+        m = numpy.diag(mt)
+        #generate diag matrix
+        for i in range(len(m)):
+            fot j in range(len(m)):
+                if i == j:
+                    m[i][j] = mt[i] * (1-mt[i])
+                    
+                else:
+                    m[i][j] = -mt[i]*mt[j]
+        return m
         
     @staticmethod
     def getActivation(str):
