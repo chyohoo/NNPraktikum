@@ -180,7 +180,10 @@ class MultilayerPerceptron(Classifier):
     def classify(self, test_instance):
         # Classify an instance given the model of the classifier
         # You need to implement something here
-        pass
+
+        # Author: Yue Ning
+        outp = self._feed_forward(test_instance)
+        return outp
 
 
     def evaluate(self, test=None):
