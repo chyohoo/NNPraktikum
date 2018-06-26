@@ -105,7 +105,7 @@ class MultilayerPerceptron(Classifier):
         """
         Do feed forward through the layers of the network
 
-        Parameters
+        Parameters 
         ----------
         inp : ndarray
             a numpy array containing the input of the layer
@@ -144,7 +144,7 @@ class MultilayerPerceptron(Classifier):
             for neuron in range(0, layer.nOut):
                 layer.weights[:, neuron] -= (learningRate *
                                                 layer.deltas[neuron] *
-                                                layer.input_data)
+                                                layer.inp)
             self.layers[n].weights = layer.weights
 
     def train(self, verbose=True):
