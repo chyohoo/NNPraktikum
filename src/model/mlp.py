@@ -131,6 +131,14 @@ class MultilayerPerceptron(Classifier):
             a numpy array (1,nOut) containing the output of the layer
         """
 
+        for i, layer in enumerate(reversed(self.layers)):
+            if layer.isClassifierLayer:
+                next_derivatives = - self.cost.calculateDerivative(target, layer.outp)
+                next_weights = np.ones(layer.shape[1])
+
+            layer.computeDerivative(next_derivatives, next_weights)
+            next_derivatives = layer.deltas
+            next_weights = layer.weights[1:]
 
 
     def _update_weights(self, learningRate):
