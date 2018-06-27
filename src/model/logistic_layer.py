@@ -83,8 +83,7 @@ class LogisticLayer():
         outp: ndarray
             a numpy array (nOut,1) containing the output of the layer
         """
-        # @Author  : Yingzhi
-        
+
         # Here you have to implement the forward pass
         self.inp = inp
         outp = self._fire(inp)  #_fire() returns activation
