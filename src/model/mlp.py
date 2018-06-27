@@ -130,7 +130,7 @@ class MultilayerPerceptron(Classifier):
         ndarray :
             a numpy array (1,nOut) containing the output of the layer
         """
-
+        # @Author  : Yingzhi
         for i, layer in enumerate(reversed(self.layers)):
             if layer.isClassifierLayer:
                 next_derivatives = - self.cost.calculateDerivative(target, layer.outp)
