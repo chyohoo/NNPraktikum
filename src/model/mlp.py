@@ -105,7 +105,7 @@ class MultilayerPerceptron(Classifier):
         """
         Do feed forward through the layers of the network
 
-        Parameters
+        Parameters 
         ----------
         inp : ndarray
             a numpy array containing the input of the layer
@@ -152,7 +152,7 @@ class MultilayerPerceptron(Classifier):
             for neuron in range(0, layer.nOut):
                 layer.weights[:, neuron] -= (learningRate *
                                                 layer.deltas[neuron] *
-                                                layer.input_data)
+                                                layer.inp)
             self.layers[n].weights = layer.weights
 
     def train(self, verbose=True):
@@ -163,14 +163,35 @@ class MultilayerPerceptron(Classifier):
         verbose : boolean
             Print logging messages with validation accuracy if verbose is True.
         """
-        pass
+         for epoch in range(self.epochs):
+            if verbose:
+                print("Training epcho {0}/{1}.."
+                      .format(epcho + 1, self.epchos))
+
+                for img, label in zip(self.trainingSet.input,
+                                      self.trainingSet.label):
+                    self.layers._feed_forward(img)
+                    self.layers._compute_error(label)
+                    self.layers._update_weights(self.learningRate)
+
+
+            if verbose:
+                accuracy = accuracy_score(self.validation.label,
+                                          self.evaluate(self.validationSet))
+                self.performances.append(accuracy)
+                print("Accuracy on validation: {0:.2f}%"
+                       .format(accuracy * 100))
+                print("---------------------------------")
 
 
 
     def classify(self, test_instance):
         # Classify an instance given the model of the classifier
         # You need to implement something here
-        pass
+
+        # Author: Yue Ning
+        outp = self._feed_forward(test_instance)
+        return outp
 
 
     def evaluate(self, test=None):
