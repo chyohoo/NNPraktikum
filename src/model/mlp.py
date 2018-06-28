@@ -70,12 +70,18 @@ class MultilayerPerceptron(Classifier):
         self.layers = layers
 
         # Build up the network from specific layers
-        self.layers = []
+        self.layers = [] * 10 
 
         # Input layer
         inputActivation = "sigmoid"
         self.layers.append(LogisticLayer(train.input.shape[1], 128,
                            None, inputActivation, False))
+
+        # @Author  : Haoye
+        # Hidden layer
+
+        for i in xrange(1,8):
+            self.layers.append(LogisticLayer(128,128,None，inputActication, False))
 
         # Output layer
         outputActivation = "softmax"
@@ -163,6 +169,7 @@ class MultilayerPerceptron(Classifier):
         verbose : boolean
             Print logging messages with validation accuracy if verbose is True.
         """
+        # @Author  : Haoye
          for epoch in range(self.epochs):
             if verbose:
                 print("Training epcho {0}/{1}.."
@@ -170,9 +177,9 @@ class MultilayerPerceptron(Classifier):
 
                 for img, label in zip(self.trainingSet.input,
                                       self.trainingSet.label):
-                    self.layers._feed_forward(img)
-                    self.layers._compute_error(label)
-                    self.layers._update_weights(self.learningRate)
+                    self._feed_forward(img)
+                    self._compute_error(label)
+                    self._update_weights(self.learningRate)
 
 
             if verbose:
