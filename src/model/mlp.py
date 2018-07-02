@@ -15,8 +15,8 @@ class MultilayerPerceptron(Classifier):
     """
 
     def __init__(self, train, valid, test, layers=None, inputWeights=None,
-                 outputTask='classification', outputActivation='softmax',
-                 loss='bce', learningRate=0.01, epochs=50):
+                 outputTask='classification', inputActivation = "sigmoid", outputActivation='softmax',
+                 loss='ce', learningRate=0.01, epochs=50):
 
         """
         A MNIST recognizer based on multi-layer perceptron algorithm
@@ -43,14 +43,14 @@ class MultilayerPerceptron(Classifier):
         self.epochs = epochs
         self.outputTask = outputTask  # Either classification or regression
         self.outputActivation = outputActivation
-        self.cost = cost
+        # self.cost = cost
 
         self.trainingSet = train
         self.validationSet = valid
         self.testSet = test
 
-        if loss == 'bce':
-            self.loss = BinaryCrossEntropyError()
+        if loss == 'ce':
+            self.loss = CrossEntropyError()
         elif loss == 'sse':
             self.loss = SumSquaredError()
         elif loss == 'mse':
@@ -72,20 +72,20 @@ class MultilayerPerceptron(Classifier):
         # Build up the network from specific layers
         self.layers = [] * 10 
 
+        self.inputActivation = inputActivation
         # Input layer
-        inputActivation = "sigmoid"
-        self.layers.append(LogisticLayer(train.input.shape[1], 128,
+        self.layers.append(LogisticLayer(train.input.shape[1], 10,
                            None, inputActivation, False))
 
         # @Author  : Haoye
         # Hidden layer
 
-        for i in xrange(1,8):
-            self.layers.append(LogisticLayer(128,128,None，inputActication, False))
+        for i in range(1,8):
+            self.layers.append(LogisticLayer(10,10,None,inputActivation, False))
 
         # Output layer
         outputActivation = "softmax"
-        self.layers.append(LogisticLayer(128, 10,
+        self.layers.append(LogisticLayer(10, 10,
                            None, outputActivation, True))
 
         self.inputWeights = inputWeights
@@ -119,11 +119,13 @@ class MultilayerPerceptron(Classifier):
         # Here you have to propagate forward through the layers
         # And remember the activation values of each layer
         """
-        # @Author  : Yingzhi
+        # @Author  : Yingzhi ,Haoye
         # do forward pass for all layers
-        for i, layer in enumerate(self.layers):
+        inp = self._get_layer(0).forward(inp)
+        
+        for i in range(1,len(self.layers)):
             inp = np.insert(inp, 0, 1, axis = 0) # add bias values ("1"s) at the beginning
-            inp = layer.forward(inp)
+            inp = self._get_layer(i).forward(inp)
 
         return inp
 
@@ -139,7 +141,7 @@ class MultilayerPerceptron(Classifier):
         # @Author  : Yingzhi
         for i, layer in enumerate(reversed(self.layers)):
             if layer.isClassifierLayer:
-                next_derivatives = - self.cost.calculateDerivative(target, layer.outp)
+                next_derivatives = - self.loss.calculateDerivative(target, self.layers[i].outp)
                 next_weights = np.ones(layer.shape[1])
 
             layer.computeDerivative(next_derivatives, next_weights)
@@ -170,10 +172,10 @@ class MultilayerPerceptron(Classifier):
             Print logging messages with validation accuracy if verbose is True.
         """
         # @Author  : Haoye
-         for epoch in range(self.epochs):
+        for epoch in range(self.epochs):
             if verbose:
                 print("Training epcho {0}/{1}.."
-                      .format(epcho + 1, self.epchos))
+                      .format(epoch + 1, self.epochs))
 
                 for img, label in zip(self.trainingSet.input,
                                       self.trainingSet.label):
@@ -183,7 +185,7 @@ class MultilayerPerceptron(Classifier):
 
 
             if verbose:
-                accuracy = accuracy_score(self.validation.label,
+                accuracy = accuracy_score(self.validationSet.label,
                                           self.evaluate(self.validationSet))
                 self.performances.append(accuracy)
                 print("Accuracy on validation: {0:.2f}%"

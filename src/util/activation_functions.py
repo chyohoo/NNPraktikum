@@ -68,19 +68,10 @@ class Activation:
         return e/e.sum()
         
     @staticmethod
-    # @Author  :Zhongqi Chen
+    # @Author  :Haoye
     def softmaxPrime(s):
-        mt = softmax(s)
-        m = numpy.diag(mt)
-        #generate diag matrix
-        for i in range(len(m)):
-            fot j in range(len(m)):
-                if i == j:
-                    m[i][j] = mt[i] * (1-mt[i])
-                    
-                else:
-                    m[i][j] = -mt[i]*mt[j]
-        return m
+        return s * (1.0 - s)
+        
         
     @staticmethod
     def getActivation(str):
