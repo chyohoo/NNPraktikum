@@ -199,7 +199,7 @@ class MultilayerPerceptron(Classifier):
         # You need to implement something here
 
         # Author: Yue Ning
-        outp = self._feed_forward(test_instance)
+        outp = np.argmax(self._feed_forward(test_instance))
         return outp
 
 
