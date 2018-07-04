@@ -114,16 +114,28 @@ class BinaryCrossEntropyError(Error):
  
 
 class CrossEntropyError(Error):
-    """
-    The Loss calculated by the more general Cross Entropy between two
-    probabilistic distributions.
-    """
+    """docstring for CrossEntropyError"""
+
     def errorString(self):
         self.errorString = 'crossentropy'
 
     def calculateError(self, target, output):
         return -(target + np.log(output) + (1.0 - target) * np.log(1.0 - output))
-        
-    def calculateDerivativer(self, target, output):
+
+    def calculateDerivative(self, target, output):
         return -target/output + (1-target)/(1-output)
+        
+# class CrossEntropyError(Error):
+#     """
+#     The Loss calculated by the more general Cross Entropy between two
+#     probabilistic distributions.
+#     """
+#     def errorString(self):
+#         self.errorString = 'crossentropy'
+
+#     def calculateError(self, target, output):
+#         return -(target + np.log(output) + (1.0 - target) * np.log(1.0 - output))
+        
+#     def calculateDerivativer(self, target, output):
+#         return -target/output + (1-target)/(1-output)
  
