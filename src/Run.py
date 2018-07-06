@@ -34,8 +34,8 @@ def main():
     myMLPClassifier = MultilayerPerceptron(data.trainingSet,
                                            data.validationSet,
                                            data.testSet,
-                                           learningRate=0.005,
-                                           epochs=50
+                                           learningRate=0.100,
+                                           epochs=10
                                            )
                                         
     
@@ -68,7 +68,7 @@ def main():
     # stupidPred = myStupidClassifier.evaluate()
     # perceptronPred = myPerceptronClassifier.evaluate()
     # lrPred = myLRClassifier.evaluate()
-    mlpPred = myPerceptronClassifier.evaluate()
+    mlpPred = myMLPClassifier.evaluate()
     
     # Report the result
     print("=========================")

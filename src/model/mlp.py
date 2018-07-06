@@ -121,13 +121,12 @@ class MultilayerPerceptron(Classifier):
         """
         # @Author  : Yingzhi ,Haoye
         # do forward pass for all layers
-        inp = self._get_layer(0).forward(inp)
+        self.layers[0].forward(inp)
         
         for i in range(1,len(self.layers)):
-            inp = np.insert(inp, 0, 1, axis = 0) # add bias values ("1"s) at the beginning
-            inp = self._get_layer(i).forward(inp)
-
-        return inp
+            self.layers[i].inp = np.insert(self.layers[i - 1].outp,0,1) # add bias values ("1"s) at the beginning
+            self.layers[i].forward(self.layers[i].inp)
+        # return inp
 
     def _compute_error(self, target):
         """
@@ -180,6 +179,7 @@ class MultilayerPerceptron(Classifier):
                 for img, label in zip(self.trainingSet.input,
                                       self.trainingSet.label):
                     self._feed_forward(img)
+
                     self._compute_error(label)
                     self._update_weights(self.learningRate)
 
